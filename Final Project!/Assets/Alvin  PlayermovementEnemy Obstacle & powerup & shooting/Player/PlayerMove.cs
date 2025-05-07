@@ -4,45 +4,58 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float speed;
-    public float jump;
+    float horizontalInput;
+    float moveSpeed;
+    bool isFacingRight = false;
+    float jumpPower = 5f;
+    bool isGrounded = false;
 
-    private float Move;
+    Rigidbody2D rb;
+    Animator animator;
 
-    private Rigidbody2D rb;
-    public bool isJumping;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
+    // Update is called once per frame 
     void Update()
     {
-        Move = Input.GetAxis("Horizontal");
+        horizontalInput = Input.GetAxis("Horizontal");
 
-        rb.velocity = new Vector2(speed * Move, rb.velocity.y);
+        FlipSprite();
 
-        if (Input.GetButtonDown("Jump") && isJumping == false)
+        if(Input.GetButtonDown("Jump") && !isGrounded)
         {
-            rb.AddForce(new Vector2(rb.velocity.x, jump));
-            Debug.Log("Jump");
-
+            rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+            isGrounded = false;
+            animator.SetBool("isJumping", !isGrounded);
         }
     }
-    private void OnCollisionEnter2D(Collision2D other)
+
+    private void FixedUpdate()
     {
-        if (other.gameObject.CompareTag("Floor"))
+        rb.velocity = new Vector2(horizontalInput * moveSpeed, rb.velocity.y);
+        animator.SetFloat("xVelocity", Mathf.Abs(rb.velocity.x));
+        animator.SetFloat("yVelocity", rb.velocity.y);
+    }
+
+    void FlipSprite()
+    {
+        if(isFacingRight && horizontalInput < 0f || !isFacingRight && horizontalInput > 0f)
         {
-            isJumping = false;
+            isFacingRight = !isFacingRight;
+            Vector3 Is = transform.localScale;
+            Is.x *= -1f;
+            transform.localScale = Is;
         }
     }
-    private void OnCollisionExit2D(Collision2D other)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.gameObject.CompareTag("Floor"))
-        {
-            isJumping = true;
-        }
+        isGrounded = true;
+        animator.SetBool("isJumping", !isGrounded);
     }
 }
