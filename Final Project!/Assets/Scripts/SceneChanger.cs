@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
+    public static object Instance { get; internal set; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +21,7 @@ public class SceneController : MonoBehaviour
 
     public void LoadMenuScene()
     {
-        SceneManager.LoadScene("MenuScene");
+        SceneManager.LoadScene("Level 2");
     }
 
     public void NextScene()
