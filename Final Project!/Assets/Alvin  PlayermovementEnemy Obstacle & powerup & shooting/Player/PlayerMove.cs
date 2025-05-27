@@ -7,6 +7,8 @@ public class PlayerMove : MonoBehaviour
 {
     public Rigidbody2D rb;
 
+    public Animator animator;
+
     bool isFacingRight = true;
 
     [Header ("Movement")]
@@ -58,6 +60,10 @@ public class PlayerMove : MonoBehaviour
             rb.velocity = new Vector2(horizontalMovement * moveSpeed, rb.velocity.y);
             Flip();
         }
+
+        animator.SetFloat("yVelocity", rb.velocity.y);
+        animator.SetFloat("magnitude", rb.velocity.magnitude);
+        animator.SetBool("isWallSliding", isWallSliding);
     }
 
     private void Gravity()
@@ -119,12 +125,14 @@ public class PlayerMove : MonoBehaviour
                 //Hold down jump button = full height
                 rb.velocity = new Vector2(rb.velocity.x, jumpPower);
                 jumpsRemaining--;
+                animator.SetTrigger("jump");
             }
             else if (context.canceled)
             {
                 //Light tap of jump button = half the height
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
                 jumpsRemaining--;
+                animator.SetTrigger("jump");
             }
         }
 
@@ -134,9 +142,10 @@ public class PlayerMove : MonoBehaviour
             isWallJumping = true;
             rb.velocity = new Vector2(wallJumpDirection * wallJumpPower.x, wallJumpPower.y); //Jump away from wall
             wallJumpTimer = 0;
+            animator.SetTrigger("jump");
 
             //Force flip
-            if(transform.localScale.x != wallJumpDirection)
+            if (transform.localScale.x != wallJumpDirection)
             {
                 isFacingRight = !isFacingRight;
                 Vector3 ls = transform.localScale;
