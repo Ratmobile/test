@@ -36,6 +36,7 @@ public class EnemyLazar : MonoBehaviour
         {
             other.gameObject.GetComponent<Health>().health -= 20;
             Destroy (gameObject);
+            
         }
     }
 }

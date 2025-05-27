@@ -30,6 +30,8 @@ public class EnemyShooting : MonoBehaviour
             {
                 timer = 0;
                 Shoot();
+            
+
             }
         }
 
@@ -38,5 +40,6 @@ public class EnemyShooting : MonoBehaviour
     void Shoot()
     {
         Instantiate(EnemyLazar, bulletPos.position, Quaternion.identity);
+     
     }
 }

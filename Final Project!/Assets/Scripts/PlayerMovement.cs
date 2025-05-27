@@ -13,14 +13,11 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     public float jump;
     public bool isjJumping;
-    bool isGrounded = false;
-    Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -36,23 +33,12 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = moveInput * moveSpeed;
         {
             if (Input.GetButtonDown("Jump")) ;
-        }
+            }
         rb.AddForce(new Vector2(rb.velocity.x, jump));
-        isGrounded = false;
-        animator.SetBool("isJumping", !isGrounded);
-        
-
-        
-
-      
-        void OnTriggerEnter2D(Collider2D collision)
         {
-            isGrounded = true;
-        }
-        
 
-        
-    }
+        }
+    } 
 }
         
     
