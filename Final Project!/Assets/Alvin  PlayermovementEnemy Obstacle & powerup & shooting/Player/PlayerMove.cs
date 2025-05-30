@@ -17,6 +17,13 @@ public class PlayerMove : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    AudioManager audioManager;
+  
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();  
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -28,6 +35,8 @@ public class PlayerMove : MonoBehaviour
         {
             rb.AddForce(new Vector2(rb.velocity.x, jump));
             Debug.Log("Jump");
+
+            audioManager.PlaySFX(audioManager.walk);
 
         }
     }
@@ -43,6 +52,7 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.CompareTag("Floor"))
         {
             isJumping = true;
+            audioManager.PlaySFX(audioManager.jump);
         }
     }
 }

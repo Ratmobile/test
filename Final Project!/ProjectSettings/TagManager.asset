@@ -7,6 +7,9 @@ TagManager:
   - Obstacle
   - Bullet
   - 'Enemy '
+  - Floor
+  - Loot
+  - Audio
   layers:
   - Default
   - TransparentFX
