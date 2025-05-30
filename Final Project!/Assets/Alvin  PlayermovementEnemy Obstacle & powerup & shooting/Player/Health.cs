@@ -1,28 +1,43 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    public float health;    
+    public float health;
     public float maxHealth;
     public Image healthBar;
-    // Start is called before the first frame update
+
     void Start()
     {
         maxHealth = health;
+
+        // Optional: Hide the GameOverScreen at the start
+        GameObject gameOverScreen = GameObject.Find("GameOverScreen");
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(false);
+        }
     }
-  
-    // Update is called once per frame
+
     void Update()
     {
         healthBar.fillAmount = Mathf.Clamp(health / maxHealth, 0, 1);
 
         if (health <= 0)
         {
-            Destroy(gameObject);
+            TriggerGameOver();
         }
+    }
+
+    void TriggerGameOver()
+    {
+        GameObject gameOverScreen = GameObject.Find("GameOverScreenLoader");
+        if (gameOverScreen != null)
+        {
+            gameOverScreen.SetActive(true);
+        }
+
+        Destroy(gameObject);
     }
 }

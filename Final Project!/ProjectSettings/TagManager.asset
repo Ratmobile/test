@@ -7,6 +7,9 @@ TagManager:
   - Obstacle
   - Bullet
   - 'Enemy '
+  - Checkpoint
+  - Floor
+  - GameOver
   layers:
   - Default
   - TransparentFX
